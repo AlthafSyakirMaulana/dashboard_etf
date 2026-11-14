@@ -149,7 +149,7 @@ HALAMAN = ["Forecast", "Bobot portofolio", "Backtest", "Evaluasi mingguan"]
 
 with st.sidebar:
     st.subheader("Menu")
-    halaman = ui.tabs(HALAMAN, value="Backtest", orientation="vertical", key="halaman")
+    halaman = ui.tabs(HALAMAN, value=HALAMAN[0], orientation="vertical", key="halaman")
     st.divider()
 
     if halaman == "Forecast":
@@ -186,8 +186,9 @@ def nama_seri(algo, m):
 
 
 st.title("Optimasi Portofolio IBIT, GLD, dan SPY")
-st.caption(f"Forecast N-BEATS vs LSTM · optimasi MVSK NSGA-III vs GA · initial capital "
-           f"${config['initial_capital']:,.0f} · {config['n_seeds']} seed")
+if halaman != "Forecast":
+    st.caption(f"Forecast N-BEATS vs LSTM · optimasi MVSK NSGA-III vs GA · initial capital "
+               f"${config['initial_capital']:,.0f} · {config['n_seeds']} seed")
 
 if halaman == "Forecast":
     if satuan == "harian":
@@ -212,10 +213,8 @@ if halaman == "Forecast":
     st.subheader(f"Forecast accuracy {satuan}")
     if satuan == "harian":
         f_harga, a_harga, acuan = data["Forecast 1-step"], data["Actual"], data["Previous Actual"]
-        st.caption("Forecast 1-step: harga t+1 dari harga aktual kemarin, dipakai rebalancing harian")
     else:
         f_harga, a_harga, acuan = data["Forecast Price"], data["Actual Price"], data["Anchor Price"]
-        st.caption("Harga hari perdagangan terakhir minggu dari recursive forecast, dipakai skenario akhir minggu")
 
     baris = []
     for nama, idx in data.groupby("Model").groups.items():
@@ -228,12 +227,10 @@ if halaman == "Forecast":
             "MAE Return": f"{(rf - ra).abs().mean():.4f}",
             "RMSE Price": f"{np.sqrt(((f - a) ** 2).mean()):.4f}",
             "MAE Price": f"{(f - a).abs().mean():.4f}",
-            "MAPE": pct(((f - a).abs() / a).mean() * 100),
+            "MAPE Price": pct(((f - a).abs() / a).mean() * 100),
             "DA": pct((np.sign(rf[arah]) == np.sign(ra[arah])).mean() * 100),
         })
     tabel(pd.DataFrame(baris), key="akurasi")
-    st.caption("DA diukur dari harga aktual sebelumnya, jadi arah harga sama dengan arah return; "
-               "hari dengan return aktual nol dikecualikan.")
 
 elif halaman == "Bobot portofolio":
     weights = baca(PORTO_DIR, "portfolio_weights.csv", parse_dates=["Rebalance Date"])
