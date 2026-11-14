@@ -1,0 +1,270 @@
+{
+  "assets": [
+    "IBIT",
+    "GLD",
+    "SPY"
+  ],
+  "transaction_cost": {
+    "dengan_biaya": 0.003,
+    "tanpa_biaya": 0.0
+  },
+  "initial_capital": 1000.0,
+  "windows": [
+    63,
+    126,
+    252
+  ],
+  "frequencies": [
+    "mingguan",
+    "harian"
+  ],
+  "scenarios": [
+    [
+      "mingguan",
+      "t_akhir"
+    ],
+    [
+      "harian",
+      "t+1"
+    ]
+  ],
+  "return_step": {
+    "mingguan": 5,
+    "harian": 1
+  },
+  "trading_days": 252,
+  "forecast_models": [
+    "nbeats",
+    "lstm"
+  ],
+  "models": [
+    "nbeats",
+    "lstm",
+    "kombinasi"
+  ],
+  "combined_model": "kombinasi",
+  "n_seeds": 30,
+  "pop_size": 168,
+  "n_ref_dirs": 165,
+  "n_gen": 50,
+  "n_gen_tuning": 50,
+  "lambda_criterion": "Total Return (%)",
+  "best_lambda": {
+    "nbeats|mingguan|t_akhir|dengan_biaya|63": [
+      0.5,
+      0.25,
+      0.125,
+      0.125
+    ],
+    "nbeats|mingguan|t_akhir|dengan_biaya|126": [
+      0.5,
+      0.375,
+      0.125,
+      0.0
+    ],
+    "nbeats|mingguan|t_akhir|dengan_biaya|252": [
+      0.875,
+      0.125,
+      0.0,
+      0.0
+    ],
+    "nbeats|mingguan|t_akhir|tanpa_biaya|63": [
+      0.625,
+      0.375,
+      0.0,
+      0.0
+    ],
+    "nbeats|mingguan|t_akhir|tanpa_biaya|126": [
+      0.625,
+      0.375,
+      0.0,
+      0.0
+    ],
+    "nbeats|mingguan|t_akhir|tanpa_biaya|252": [
+      0.625,
+      0.25,
+      0.0,
+      0.125
+    ],
+    "nbeats|harian|t+1|dengan_biaya|63": [
+      0.125,
+      0.625,
+      0.25,
+      0.0
+    ],
+    "nbeats|harian|t+1|dengan_biaya|126": [
+      0.0,
+      0.625,
+      0.375,
+      0.0
+    ],
+    "nbeats|harian|t+1|dengan_biaya|252": [
+      0.0,
+      0.875,
+      0.0,
+      0.125
+    ],
+    "nbeats|harian|t+1|tanpa_biaya|63": [
+      0.375,
+      0.5,
+      0.0,
+      0.125
+    ],
+    "nbeats|harian|t+1|tanpa_biaya|126": [
+      0.375,
+      0.5,
+      0.0,
+      0.125
+    ],
+    "nbeats|harian|t+1|tanpa_biaya|252": [
+      0.0,
+      0.875,
+      0.0,
+      0.125
+    ],
+    "lstm|mingguan|t_akhir|dengan_biaya|63": [
+      0.375,
+      0.125,
+      0.25,
+      0.25
+    ],
+    "lstm|mingguan|t_akhir|dengan_biaya|126": [
+      0.375,
+      0.375,
+      0.125,
+      0.125
+    ],
+    "lstm|mingguan|t_akhir|dengan_biaya|252": [
+      0.25,
+      0.25,
+      0.375,
+      0.125
+    ],
+    "lstm|mingguan|t_akhir|tanpa_biaya|63": [
+      0.375,
+      0.25,
+      0.25,
+      0.125
+    ],
+    "lstm|mingguan|t_akhir|tanpa_biaya|126": [
+      0.5,
+      0.375,
+      0.125,
+      0.0
+    ],
+    "lstm|mingguan|t_akhir|tanpa_biaya|252": [
+      0.5,
+      0.5,
+      0.0,
+      0.0
+    ],
+    "lstm|harian|t+1|dengan_biaya|63": [
+      0.125,
+      0.5,
+      0.25,
+      0.125
+    ],
+    "lstm|harian|t+1|dengan_biaya|126": [
+      0.125,
+      0.5,
+      0.375,
+      0.0
+    ],
+    "lstm|harian|t+1|dengan_biaya|252": [
+      0.0,
+      0.875,
+      0.0,
+      0.125
+    ],
+    "lstm|harian|t+1|tanpa_biaya|63": [
+      0.5,
+      0.375,
+      0.0,
+      0.125
+    ],
+    "lstm|harian|t+1|tanpa_biaya|126": [
+      0.5,
+      0.375,
+      0.0,
+      0.125
+    ],
+    "lstm|harian|t+1|tanpa_biaya|252": [
+      0.5,
+      0.25,
+      0.25,
+      0.0
+    ],
+    "kombinasi|mingguan|t_akhir|dengan_biaya|63": [
+      0.5,
+      0.125,
+      0.25,
+      0.125
+    ],
+    "kombinasi|mingguan|t_akhir|dengan_biaya|126": [
+      0.375,
+      0.375,
+      0.125,
+      0.125
+    ],
+    "kombinasi|mingguan|t_akhir|dengan_biaya|252": [
+      0.25,
+      0.125,
+      0.375,
+      0.25
+    ],
+    "kombinasi|mingguan|t_akhir|tanpa_biaya|63": [
+      0.5,
+      0.125,
+      0.25,
+      0.125
+    ],
+    "kombinasi|mingguan|t_akhir|tanpa_biaya|126": [
+      0.5,
+      0.25,
+      0.125,
+      0.125
+    ],
+    "kombinasi|mingguan|t_akhir|tanpa_biaya|252": [
+      0.125,
+      0.125,
+      0.375,
+      0.375
+    ],
+    "kombinasi|harian|t+1|dengan_biaya|63": [
+      0.0,
+      0.75,
+      0.25,
+      0.0
+    ],
+    "kombinasi|harian|t+1|dengan_biaya|126": [
+      0.125,
+      0.5,
+      0.375,
+      0.0
+    ],
+    "kombinasi|harian|t+1|dengan_biaya|252": [
+      0.0,
+      0.875,
+      0.0,
+      0.125
+    ],
+    "kombinasi|harian|t+1|tanpa_biaya|63": [
+      0.5,
+      0.5,
+      0.0,
+      0.0
+    ],
+    "kombinasi|harian|t+1|tanpa_biaya|126": [
+      0.5,
+      0.5,
+      0.0,
+      0.0
+    ],
+    "kombinasi|harian|t+1|tanpa_biaya|252": [
+      0.5,
+      0.5,
+      0.0,
+      0.0
+    ]
+  }
+}

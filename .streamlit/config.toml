@@ -1,0 +1,16 @@
+# Tema terang lembut ala shadcn (slate + indigo)
+[theme]
+base = "light"
+font = "Inter:https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+primaryColor = "#4f46e5"
+backgroundColor = "#f8fafc"
+secondaryBackgroundColor = "#f1f5f9"
+textColor = "#0f172a"
+borderColor = "#e2e8f0"
+baseRadius = "0.75rem"
+showWidgetBorder = true
+headingFontWeights = 600
+
+# Sembunyikan tombol Deploy dan menu developer
+[client]
+toolbarMode = "viewer"
