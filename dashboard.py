@@ -51,7 +51,7 @@ def grafik_garis(df, y_label, format_tooltip=",.2f", sumbu_x="Tanggal", tipe_x="
     chart = alt.Chart(data).mark_line(strokeWidth=2.2, point=tipe_x == "O").encode(
         x=alt.X(f"{sumbu_x}:{tipe_x}", title=None if tipe_x == "T" else sumbu_x, axis=alt.Axis(labelAngle=0)),
         y=alt.Y(f"{y_label}:Q", scale=alt.Scale(zero=False)),
-        color=alt.Color("Seri:N", sort=list(df.columns), title=None, legend=alt.Legend(orient="bottom"),
+        color=alt.Color("Seri:N", sort=list(df.columns), title=None, legend=alt.Legend(orient="bottom", labelLimit=0),
                         scale=alt.Scale(domain=list(df.columns), range=[WARNA[c] for c in df.columns])),
         tooltip=[f"{sumbu_x}:{tipe_x}", "Seri:N", alt.Tooltip(f"{y_label}:Q", format=format_tooltip)],
     ).properties(height=tinggi)
@@ -68,7 +68,7 @@ def grafik_bobot(w, freq):
     chart = alt.Chart(long).mark_bar().encode(
         x=alt.X("Periode:O", title=f"Rebalance date ({freq})", axis=alt.Axis(labelAngle=-45, labelOverlap=True)),
         y=alt.Y("Bobot:Q", stack="zero", scale=alt.Scale(domain=[0, 1]), axis=alt.Axis(format="%")),
-        color=alt.Color("Asset:N", sort=ASSETS, title=None, legend=alt.Legend(orient="bottom"),
+        color=alt.Color("Asset:N", sort=ASSETS, title=None, legend=alt.Legend(orient="bottom", labelLimit=0),
                         scale=alt.Scale(domain=ASSETS, range=[WARNA[a] for a in ASSETS])),
         order=alt.Order("Asset:N", sort="ascending"),
         tooltip=[alt.Tooltip("Periode:N", title="Rebalance date")]
@@ -379,7 +379,7 @@ elif halaman == "Backtest":
             plot = alt.Chart(titik).mark_point(filled=True, opacity=0.9, size=140).encode(
                 x=alt.X(f"{OBJEKTIF[i]}:Q", scale=alt.Scale(zero=False)),
                 y=alt.Y(f"{OBJEKTIF[j]}:Q", scale=alt.Scale(zero=False)),
-                color=alt.Color("Solusi:N", title=None, legend=alt.Legend(orient="bottom"),
+                color=alt.Color("Solusi:N", title=None, legend=alt.Legend(orient="bottom", labelLimit=0),
                                 scale=alt.Scale(domain=solusi, range=[WARNA[x] for x in solusi])),
                 shape=alt.Shape("Solusi:N", scale=alt.Scale(domain=solusi, range=["circle", "circle", "diamond"]),
                                 legend=None),
@@ -486,11 +486,6 @@ else:
     urutan = [nama_seri(algo, m) for m in models for algo in ["NSGA-III", "GA"]] + benchmark
 
     st.subheader("Evaluasi kinerja per minggu")
-    st.caption(f"Median {config['n_seeds']} seed tiap minggu, dihitung terpisah per metrik. Return per minggu = perubahan nilai "
-               "portofolio dari akhir minggu sebelumnya; metrik lain kumulatif dari awal periode test sampai akhir minggu itu "
-               "(252 hari, r_f = 0), sehingga minggu terakhir sama dengan halaman Backtest. Sharpe dan Sortino minggu-minggu awal "
-               "hanya dari sedikit hari, jadi masih berfluktuasi besar."
-               + (" Rebalancing harian dievaluasi pada minggu kalender yang sama." if freq == "harian" else ""))
 
     grafik = [("Return per minggu (%)", "Return Minggu (%)"), ("Cumulative return (%)", "Total Return (%)"),
               ("Sharpe ratio kumulatif", "Sharpe"), ("Max drawdown kumulatif (%)", "Max Drawdown")]
