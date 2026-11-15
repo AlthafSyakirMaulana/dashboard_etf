@@ -419,54 +419,6 @@ elif halaman == "Backtest":
         "Periode non-konveks (%)": "Non-convex front periods", "TOPSIS tak terdukung (%)": "Unsupported TOPSIS solution",
     }), key="konveks")
 
-    st.subheader("Wilcoxon signed-rank test")
-    tabel_wil = baca(PORTO_DIR, "portfolio_wilcoxon.csv")
-    tabel_wil = tabel_wil[~tabel_wil["Perbandingan"].str.contains("historis") & (tabel_wil["Model"] != "historis")]
-
-    def nama_perbandingan(teks):
-        uji, kurung, algoritma = teks.partition(" (")
-        return " vs ".join(LABEL_NAMA.get(x, x) for x in uji.split(" vs ")) + kurung + algoritma
-
-    pilihan = ui.select("Perbandingan", list(tabel_wil["Perbandingan"].unique()), format_func=nama_perbandingan,
-                        key="wilcoxon")
-    uji, _, algoritma = pilihan.partition(" (")
-    nama_a, nama_b = [LABEL_NAMA.get(x, x) for x in uji.split(" vs ")]
-
-    # Kolom konteks bernilai "-" berarti dimensi itu yang sedang dibandingkan
-    hasil_wil = tabel_wil[(tabel_wil["Perbandingan"] == pilihan) & tabel_wil["Model"].isin(models + ["-"])]
-    for kolom, nilai in dasar.items():
-        hasil_wil = hasil_wil[hasil_wil[kolom].astype(str).isin([str(nilai), "-"])]
-
-    if hasil_wil.empty:
-        st.caption("Perbandingan ini tidak berlaku untuk skenario terpilih.")
-    else:
-        hasil_wil = hasil_wil.drop(columns=["Perbandingan"] + list(dasar)).copy()
-        hasil_wil["Model"] = hasil_wil["Model"].map(lambda x: LABEL_NAMA.get(x, x))
-
-        def unggul(row):
-            if pd.isna(row["Statistik W"]):
-                return "identik"
-            if row["p-value"] >= 0.05:
-                return "tidak berbeda"
-            besar_lebih_baik = row["Metrik"] != "Turnover"
-            return nama_a if (row["Selisih Median"] > 0) == besar_lebih_baik else nama_b
-
-        hasil_wil["Lebih baik"] = hasil_wil.apply(unggul, axis=1)
-        for c in ["Median A", "Median B", "Selisih Median"]:
-            hasil_wil[c] = [FORMAT_METRIK[m](x) for m, x in zip(hasil_wil["Metrik"], hasil_wil[c])]
-        hasil_wil["Statistik W"] = hasil_wil["Statistik W"].round(1)
-        hasil_wil["p-value"] = hasil_wil["p-value"].map(lambda p: "< 0.0001" if p < 1e-4 else f"{p:.4f}")
-        hasil_wil["Metrik"] = hasil_wil["Metrik"].replace(NAMA_METRIK)
-        kolom_wil = (["Model"] if len(models) > 1 else []) + ["Metrik", "Median A", "Median B", "Selisih Median",
-                                                              "Lebih baik", "p-value", "Statistik W"]
-        tabel(hasil_wil[kolom_wil].rename(columns={
-            "Metrik": "Metric", "Median A": f"Median {nama_a}", "Median B": f"Median {nama_b}",
-            "Selisih Median": "Selisih", "Statistik W": "W",
-        }), key="hasil_wilcoxon")
-        st.caption(f"Algoritma: {algoritma.rstrip(')') or 'NSGA-III dan GA'}. Selisih = {nama_a} − {nama_b}. "
-                   "Lebih baik diisi bila signifikan pada α = 5%: nilai lebih besar lebih baik, kecuali Turnover "
-                   "(lebih kecil lebih baik); Max Drawdown yang lebih mendekati 0 lebih baik.")
-
 else:
     # Evaluasi per minggu kalender (median antar seed); halaman Backtest tetap ringkasan keseluruhan
     if not (PORTO_DIR / "portfolio_mingguan_median.csv").exists():
