@@ -314,7 +314,7 @@ elif halaman == "Backtest":
     # Return kumulatif, supaya sumbu-y tidak tertekan oleh baseline 0
     st.subheader("Cumulative return")
     st.caption("Grafik memakai satu seed per algoritma (urutan ke-16 dari 30 menurut final value), "
-               "sedangkan kartu di atas memakai median 30 seed, jadi nilai akhirnya bisa berbeda sedikit.")
+               "sedangkan nilai di atas memakai median 30 seed, jadi nilai akhirnya bisa berbeda sedikit.")
     grafik_garis((chart / config["initial_capital"] - 1) * 100, "Cumulative return (%)")
 
     st.subheader("Performance metrics per window")
@@ -330,8 +330,6 @@ elif halaman == "Backtest":
     tabel(pd.DataFrame(baris), key="summary")
 
     st.subheader("Benchmark")
-    st.caption("100% satu aset = seluruh modal pada satu aset lalu dibiarkan (buy and hold). Run baru menghitung "
-               "Sharpe, Sortino, dan max drawdown dari nilai portofolio harian (252 hari, r_f = 0).")
     bench = saring(baca(PORTO_DIR, "portfolio_benchmark.csv"), Frekuensi=freq, Biaya=biaya)
     if not bench["Strategi"].str.startswith("100%").any():
         # Run lama belum mengekspor benchmark satu aset: dihitung dari harga harian periode test, tanpa biaya awal
